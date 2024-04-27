@@ -15,8 +15,13 @@ function playerInfo(){
     function nameArray(array){
         let name1 = document.querySelector('#player1').value;
         let name2 = document.querySelector('#player2').value;
+        if(name1 === ''){
+            name1 = 'Player 1';
+        }
+        if(name2 === ''){
+            name2 = 'Player 2';
+        }
         array.splice(0,0,name1,name2)
-        console.log(array)
 
     }
     
@@ -37,17 +42,26 @@ function startGame(players){
     let player1Index = [], player2Index = [];
     let count = 1;
     
-    
-    grid.addEventListener('click',(event) => {
+    const clickHandler = (event) => {
         let target = event.target;
         switch(target.className){
             case 'cell':
                 let cell = target;
-                console.log(playerTurn(cell,players,count)); 
+                playerTurn(cell,players,count); 
+                console.log(array)
+                console.log(player1Index);
+                console.log(player2Index);
                 
                 /* passes through playerTurn() to determine character entry for cell*/
         }
-    });
+    }
+    
+    grid.addEventListener('click', clickHandler);
+    let reset = document.querySelector('.reset');
+    reset.addEventListener('click', ()=>{
+        resetGame(grid, clickHandler);
+    })
+
     
     function playerTurn(cell,players, count){
         let {player1, player2} = players;
@@ -88,19 +102,20 @@ function startGame(players){
         }
 
         function playerSelectIndex(cellIndex, player){
-            
+            let playerIndex = undefined;
             if(player.selector === 'X'){
                 player1Index.push(parseInt(cellIndex));
-                determineWinner(player1Index);
+                playerIndex = player1Index;
+                
 
             }
             else{
                 player2Index.push(parseInt(cellIndex));
-                determineWinner(player2Index);
+                playerIndex = player2Index;
             }
-            
+            determineWinner(playerIndex, player);
         }
-        function determineWinner(playerIndex){
+        function determineWinner(playerIndex, player){
             let winningIndexes = [
             [0,1,2],
             [0,3,6],
@@ -116,25 +131,34 @@ function startGame(players){
             for(i in winningIndexes){
                 winner = winningIndexes[i].every(element => playerIndex.includes(element));
                 if(winner){
-                    if(array[winningIndexes[i][0]] === 'X'){
-                        console.log('player 1 wins');
-                        endOfGame()
-                        
-                    }
-                    if(array[winningIndexes[i][0]] === 'O'){
-                        console.log('player 2 wins');
-                        
-                    }
-                   
+                    endOfGame(grid, clickHandler, player)
                 }
             }
             return winner
         }
     }
-    function endOfGame(){
-        // return grid.disabled = true;
-    }
+   
+    function endOfGame(grid, clickHandler, player){
+        let outcome = document.querySelector('.outcome');
+        outcome.textContent = `${player.name} wins!`
+        grid.removeEventListener('click', clickHandler);
+        resetButton()
+        
+        function resetButton(grid, clickHandler){
+            const restore = function() {
+                grid.addEventListener('click', clickHandler);
+                playerInfo();
+            }
+        
+        }
+        
+        
     
+    }
+}
+function resetGame(grid, clickHandler){
+    grid.addEventListener('click', clickHandler);
+    playerInfo()
 }
 
 
