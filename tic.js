@@ -22,9 +22,14 @@ function playerInfo(){
             name2 = 'Player 2';
         }
         array.splice(0,0,name1,name2)
-
+        scoreBoardPopulate(name1, name2)
     }
-    
+    function scoreBoardPopulate(name1, name2){
+        let player1H3 = document.querySelector('.player1Name');
+        player1H3.textContent = name1 + ':';
+        let player2H3 = document.querySelector('.player2Name');
+        player2H3.textContent = name2 + ':';
+    }
     function createPlayer(array){
         let player1 = {name:array[0], selector: 'X'};
         let player2 = {name:array[1], selector:'O'};
@@ -41,6 +46,7 @@ function startGame(players){
     grid.disabled = false;
     let player1Index = [], player2Index = [];
     let count = 1;
+    let playerScore = [0,0];
     
     const clickHandler = (event) => {
         let target = event.target;
@@ -48,19 +54,43 @@ function startGame(players){
             case 'cell':
                 let cell = target;
                 playerTurn(cell,players,count); 
-                console.log(array)
-                console.log(player1Index);
-                console.log(player2Index);
-                
                 /* passes through playerTurn() to determine character entry for cell*/
         }
     }
     
     grid.addEventListener('click', clickHandler);
-    let reset = document.querySelector('.reset');
-    reset.addEventListener('click', ()=>{
+
+    let resetBoard = document.querySelector('.resetBoard');
+    
+    resetBoard.addEventListener('click', ()=>{
         resetGame(grid, clickHandler);
     })
+
+    let resetScore = document.querySelector('.resetScore');
+
+    resetScore.addEventListener('click', () => {
+        let player = 'reset';
+        playerScore = scoreKeeping(player, playerScore); /* updates playerScore w/ return value of scoreKeeping */
+    })
+    function resetGame(grid, clickHandler){
+        grid.addEventListener('click', clickHandler);
+
+        let outcome = document.querySelector('.outcome');
+        outcome.textContent = '';
+        array = new Array(9).fill(undefined);
+        player1Index = [], player2Index = [];
+        
+        count = 1;
+        for (i = 0; i < 9; i++){
+            let cellId = '#cell' + i;
+            let eachCell = document.querySelector(cellId);
+            if(eachCell){
+                eachCell.textContent = '';
+            }
+        }
+        
+    }
+    
 
     
     function playerTurn(cell,players, count){
@@ -75,8 +105,8 @@ function startGame(players){
     }
 
     function gameTracking(cell,player){ 
-        let cellIndex = cell.id; /* id's are given index position for ref */
-
+        let cellIndex = cell.id[4]; /* id's are given index position for ref */
+        console.log(cellIndex)
         if(array[cellIndex] === undefined){
             arrayAppend(cellIndex, player.selector);
             DOMGame(cell, cellIndex);
@@ -87,7 +117,6 @@ function startGame(players){
             }
             
             // determineWinner(playerIndex);
-            
             count++; /* only changes turns for valid entries */
             return count;
         }
@@ -98,7 +127,8 @@ function startGame(players){
         }
 
         function DOMGame(cell,cellIndex){
-            cell.textContent = [array[cellIndex]].join(', ');
+            return cell.textContent = [array[cellIndex]].join(', ');
+            
         }
 
         function playerSelectIndex(cellIndex, player){
@@ -127,38 +157,59 @@ function startGame(players){
             [6,7,8],
             ]   
             
-            let winner = false
+            let winner = true;
             for(i in winningIndexes){
                 winner = winningIndexes[i].every(element => playerIndex.includes(element));
                 if(winner){
                     endOfGame(grid, clickHandler, player)
+                    scoreKeeping(player, playerScore);
+                    
                 }
             }
+            let fullBoard = array.filter((item)=> {
+                            return item !== undefined
+                            }) /* filters out any undefined indexes because that's their default value */
+            if(fullBoard.length === array.length){
+                player = null 
+                endOfGame(grid, clickHandler, player);
+            }
+           
             return winner
         }
     }
    
     function endOfGame(grid, clickHandler, player){
         let outcome = document.querySelector('.outcome');
-        outcome.textContent = `${player.name} wins!`
-        grid.removeEventListener('click', clickHandler);
-        resetButton()
-        
-        function resetButton(grid, clickHandler){
-            const restore = function() {
-                grid.addEventListener('click', clickHandler);
-                playerInfo();
-            }
-        
+        if(player === null){
+            outcome.textContent = "Cat's Game!"
         }
+        else{            
+            outcome.textContent = `${player.name} wins!`;
+            grid.removeEventListener('click', clickHandler);
+        }
+       
         
-        
-    
     }
-}
-function resetGame(grid, clickHandler){
-    grid.addEventListener('click', clickHandler);
-    playerInfo()
+
+    function scoreKeeping(player, playerScore){
+       let player1Score = document.querySelector('.player1Score');
+       let player2Score = document.querySelector('.player2Score');
+       if(player === 'reset'){
+          playerScore = [0,0];
+       }
+       if(player.selector === 'X'){
+        playerScore[0] += 1;
+        
+       } 
+       else if(player.selector === 'O'){
+        playerScore[1] += 1;
+        
+       }
+       console.log(playerScore)
+       player1Score.textContent = playerScore[0];
+       player2Score.textContent = playerScore[1];
+       return playerScore;
+    }
 }
 
 
