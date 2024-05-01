@@ -6,48 +6,56 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="header">
-        <h1>Tic Tac Toe!</h1>
+  <div class="header">
+    <h1>Tic Tac Toe!</h1>
+  </div>
+  <button class="changeNames">Change Names</button>
+  <div class="playerNameContainer">
+    <div class="prompt">Welcome! Enter Player Names!</div>
+    <div class="player1Container">
+        <label for="player1">Player 1:</label>
+        <input type="text" id="player1" placeholder="Player 1">
     </div>
-
-    <div class="playerContainer">
-        <div class="prompt">Enter Player Names! (Optional)</div>
-        <div class="player1Container">
-            <label for="player1">Player 1:</label>
-            <input type="text" id="player1">
-        </div>
-        <div class="player2Container">
-            <label for="player2">Player 2:</label>
-            <input type="text" id="player2">
-        </div>
+    <div class="player2Container">
+        <label for="player2">Player 2:</label>
+        <input type="text" id="player2" placeholder="Player 2">
     </div>
-    <button>Start Game:</button>
-    <div class="grid">
-        <div class="cell" id="cell0"></div>
-        <div class="cell" id="cell1"></div>
-        <div class="cell" id="cell2"></div>
-        <div class="cell" id="cell3"></div>
-        <div class="cell" id="cell4"></div>
-        <div class="cell" id="cell5"></div>
-        <div class="cell" id="cell6"></div>
-        <div class="cell" id="cell7"></div>
-        <div class="cell" id="cell8"></div>
+    <button class="beginGameSeries">Begin Game Series:</button>
+  </div>
+ 
+  <div class="grid">
+      <div class="cell" id="cell0"></div>
+      <div class="cell" id="cell1"></div>
+      <div class="cell" id="cell2"></div>
+      <div class="cell" id="cell3"></div>
+      <div class="cell" id="cell4"></div>
+      <div class="cell" id="cell5"></div>
+      <div class="cell" id="cell6"></div>
+      <div class="cell" id="cell7"></div>
+      <div class="cell" id="cell8"></div>
+  </div>
+  <div class="score">
+      <h3>Scoreboard</h3>
+      <div class="player1ScoreContainer">
+          <h3 class="player1Name">Player 1:</h3>
+          <p class="player1Score">0</p>
+      </div>
+      <div class="player2ScoreContainer">
+          <h3 class="player2Name">Player 2:</h3>
+          <p class="player2Score">0</p>
+      </div>
+      <button class="resetScore">Reset Scores</button>
+  </div>
+  
+  
+  
+  <div class="outcomePopupContainer">
+    <div class="outcomePopup">
+      <p class="outcome"></p>
+      <button class="resetBoard">Reset Board</button>
     </div>
-    <div class="score">
-        <h3>Scoreboard</h3>
-        <div class="player1Container">
-            <h3 class="player1Name">Player 1:</h3>
-            <p class="player1Score">0</p>
-        </div>
-        <div class="player2Container">
-            <h3 class="player2Name">Player 2:</h3>
-            <p class="player2Score">0</p>
-        </div>
-        <button class="resetScore">Reset Scores</button>
-    </div>
-    <p class="outcome"></p>
-    <button class="resetBoard">Reset Board</button>
-    
+  </div>
+  <p class="welcome"></p>
 </body>
 <link rel="stylesheet" href="style.css">
 <script type="text/javascript" src="tic.js"></script>

@@ -1,16 +1,19 @@
 function playerInfo(){
   function init(){
     let playerArray = [];
-    let button = document.querySelector('.startGame');
+    let button = document.querySelector('.beginGameSeries');
 
     button.addEventListener('click',() => {
         nameArray(playerArray);
-        /* Need to disable this event when a winner is determined. */
+        greeting(playerArray[0], playerArray[1]);
         let players = createPlayer(playerArray); /* includes player1, player2 to parse later */
-        scoreBoardPopulate(playerArray)
         startGame(players);
     })  
   }
+  let changeNames = document.querySelector('.changeNames');
+  changeNames.addEventListener('click', ()=>{
+    playerNameDisplay();
+  })
 
   function nameArray(playerArray){
     let name1 = document.querySelector('#player1').value;
@@ -22,18 +25,35 @@ function playerInfo(){
         name2 = 'Player 2';
     }
     playerArray.splice(0,0,name1,name2)
-    
+    scoreBoardPopulate(playerArray)
 }
   function scoreBoardPopulate(playerArray){
     let player1H3 = document.querySelector('.player1Name');
     player1H3.textContent = playerArray[0] + ':';
     let player2H3 = document.querySelector('.player2Name');
     player2H3.textContent = playerArray[1] + ':';
+    playerNameDisplay();
+   
   }
   function createPlayer(playerArray){
     let player1 = {name:playerArray[0], selector: 'X'};
     let player2 = {name:playerArray[1], selector:'O'};
     return{player1, player2};
+  }
+  function playerNameDisplay(){
+    let namePopup = document.querySelector('.playerNameContainer')
+    if (namePopup.style.display === 'none'){
+      namePopup.style.display = 'flex'
+     
+    }
+    else{
+       namePopup.style.display = 'none';
+    }
+    
+  }
+  function greeting(player1, player2){
+    let welcome = document.querySelector('.welcome');
+    welcome.textContent = `Now Playing: ${player1}, and ${player2}`
   }
 
   init();
@@ -48,18 +68,20 @@ function startGame(players){
   let count = 1;
   let playerScore = [0,0];
   
+  // let playerTurn = document.querySelector('.playerTurn');
+  // playerTurn.textContent = `${player[0](player.name)}'s turn!`
 
   let outcome = document.querySelector('.outcome');
   resetGame();
   scoreKeeping('reset');
 // functions called to wipe game data if names change.    
-  
   const clickHandler = (event) => {
     let target = event.target;
     switch(target.className){
         case 'cell':
             let cell = target;
-            playerTurn(cell,players,count); 
+            playerTurn(cell,players,count);
+
             /* passes through playerTurn() to determine character entry for cell*/
     }
   }
@@ -70,6 +92,9 @@ function startGame(players){
   resetBoard.addEventListener('click', ()=>{
     resetGame();
     grid.addEventListener('click', clickHandler);
+    outcomeDisplay(false) /* calls funct to set popup display to 'none' */
+
+    
   })
 
   let resetScore = document.querySelector('.resetScore');
@@ -87,6 +112,7 @@ function startGame(players){
       let eachCell = document.querySelector(cellId);
       if(eachCell){
           eachCell.textContent = '';
+          eachCell.style.background = 'black' 
       }
     }
   }
@@ -107,61 +133,63 @@ function startGame(players){
       let winner = playerSelectIndex(cellIndex,player)
       if (winner === true){
       }
-      // determineWinner(playerIndex);
       count++; /* only changes turns for valid entries */
       return count;
     }
-      function arrayAppend(cellIndex,character){
-        array.splice(cellIndex,1,character); /* find origin of character and change to selector to match obj */
-        return array;
-      }
-      function DOMGame(cell,cellIndex){
-        return cell.textContent = [array[cellIndex]].join(', ');
-      }
-      function playerSelectIndex(cellIndex, player){
-        let playerIndex = undefined;
-        if(player.selector === 'X'){
-          player1Index.push(parseInt(cellIndex));
-          playerIndex = player1Index;
-        }
-        else{
-          player2Index.push(parseInt(cellIndex));
-          playerIndex = player2Index;
-        }
-        determineWinner(playerIndex, player);
-      }
-      function determineWinner(playerIndex, player){
-        let winningIndexes = [
-        [0,1,2],
-        [0,3,6],
-        [0,4,8],
-        [1,4,7],
-        [2,5,8],
-        [2,4,6],
-        [3,4,5],
-        [6,7,8],
-        ]          
-        let winner = false;
+    function arrayAppend(cellIndex,character){
+      array.splice(cellIndex,1,character); /* find origin of character and change to selector to match obj */
+      return array;
+    }
+    function DOMGame(cell,cellIndex){
+      return cell.textContent = [array[cellIndex]].join(', ');
+    }
+    function playerSelectIndex(cellIndex, player){
+      let playerIndex = undefined;
+      
+      if(player.selector === 'X'){
+        player1Index.push(parseInt(cellIndex));
+        playerIndex = player1Index;
         
-        for(i in winningIndexes){
-          winner = winningIndexes[i].every(element => playerIndex.includes(element));
-          if(winner){
-              console.log(winner)
-              endOfGame(grid, clickHandler, player)
-              scoreKeeping(player, playerScore); 
-              return winner;
-          }
+      }
+      else{
+        player2Index.push(parseInt(cellIndex));
+        playerIndex = player2Index;
+      }
+      determineWinner(playerIndex, player);
+    }
+    function determineWinner(playerIndex, player){
+      let winningIndexes = [
+      [0,1,2],
+      [0,3,6],
+      [0,4,8],
+      [1,4,7],
+      [2,5,8],
+      [2,4,6],
+      [3,4,5],
+      [6,7,8],
+      ]          
+      let winner = false;
+      
+      for(i in winningIndexes){
+        winner = winningIndexes[i].every(element => playerIndex.includes(element));
+        if(winner){
+            let winningIndex =  winningIndexes[i];
+            winningStyle(winningIndex);
+            endOfGame(grid, clickHandler, player)
+            scoreKeeping(player, playerScore); 
+            return winner;
         }
-        let fullBoard = 
-          array.filter((item)=> {
-            return item !== undefined
-          }) /* filters out any undefined indexes because that's their default value */
+      }
+      let fullBoard = 
+        array.filter((item)=> {
+          return item !== undefined
+        }) /* filters out any undefined indexes because that's their default value */
 
-        if(fullBoard.length === array.length && winner === false){
-          endOfGame(grid, clickHandler, false);
-          // player set to false to indicate a lack of winners, otherwise used to identify winner.
-        }
-        return winner
+      if(fullBoard.length === array.length && winner === false){
+        endOfGame(grid, clickHandler, false);
+        // player set to false to indicate a lack of winners, otherwise used to identify winner.
+      }
+      return winner
     }
   }
   function scoreKeeping(player, playerScore){
@@ -192,7 +220,25 @@ function startGame(players){
       outcome.textContent = `${player.name} wins!`;
       grid.removeEventListener('click', clickHandler);
     }
+    outcomeDisplay(true)
   }
+  function outcomeDisplay(bool){
+    let outcomePopup = document.querySelector('.outcomePopupContainer');
+    if (bool === true){
+      return outcomePopup.style.display = 'block';
+
+    }
+    outcomePopup.style.display = 'none';
     
+    
+  }
+  function winningStyle(winningIndex){
+    for(i of winningIndex){
+      let winningCell = document.querySelector(`#cell${i}`);
+      if(winningCell){
+        winningCell.style.background = 'rgba(7, 187, 7, 0.692)';
+      }
+    }
+  }
 }
 playerInfo();

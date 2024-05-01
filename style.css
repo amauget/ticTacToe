@@ -1,31 +1,325 @@
 :root{
-    box-sizing: border-box;
-    margin:0;
-    padding:0;
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
 }
 body{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    margin:0;
+  display:grid; 
+  grid-template-columns:minmax(630px, min-content) auto;
+  grid-template-rows: min-content;
+  grid-auto-rows: min-content;
+  background:rgba(224, 224, 224, 0.616)
 }
 .header{
-    display:flex;
-    justify-content: center;
-    margin-bottom: 6%;
+  grid-row: 1/2;
+  grid-column: 1/4;
+  justify-self: center;
+  display:flex;
+  justify-content: center;
+  width:100%;
+  background:linear-gradient(to top, black,green);
+  margin:-1vh -3vw 1vh -3vw;
+  padding: 0 3vw;
+  color:white;
+} 
+button{
+  border-radius: 15px;
+  cursor: pointer;
+  min-width: fit-content;
+  min-height: 35px;
+  max-width: 100px;
+}
+.playerNameContainer{
+  grid-row: 2/4;
+  grid-column: 1/2;
+  justify-self: center;
+  align-self: start;
+  display:flex;
+  flex-direction: column;
+  z-index: 1000;
+  font-weight: bold;
+  font-size: 1.5rem;
+  gap: 20px;
+  margin-bottom: 2vh;
+  padding: 2vw;
+  background: rgb(230, 228, 228); 
+  box-shadow:.2rem .2rem 2rem .1rem green;   
+}
+.playerNameContainer .prompt{
+  text-align: center;
+  padding-bottom: 10px;
+}
+.playerNameContainer .exit{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width:20px;
+  height:20px;
+  min-height: 20px;
+  min-width: 20px;
+  border:none;
+  background-color: black;
+  color:green;
+}
+.playerNameContainer input{
+  font-size: 1.5rem;
+  width: 50%;
+}
+.playerNameContainer .beginGameSeries{
+  width:20%;
+  height: 30%;
+  font-weight: bold;
+  align-self: center;
+  justify-self: left;
+  color:green ;
+  background-color: black;
+  border:none;
+  font-size: 1.2rem;
+  padding:.5rem;
+  
+}
+.changeNames{
+  grid-row: 2/3;
+  grid-column: 1/2;
+  color: rgb(255, 255, 255);
+  background: rgb(0, 0, 0);
+  height: 10vh;
+  max-height: 50px;
+  padding:0 3vw;
+  font-size: 1.5rem;
+  font-weight: bold;
+  justify-self:center;
+  align-self: center;
+  
+}
+.welcome{
+  grid-row: 2/3;
+  grid-column: 2/3;
+  font-size: 2rem;
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+  width:45%;
+  background-color: black;
+  color:white;
+
 }
 .grid{
-    display:grid;
-    grid-template-columns: repeat(3,min-content);
-    grid-template-rows: repeat(3,1fr);
-    gap:none;
+  grid-column: 2/3;
+  grid-row: 3/5;
+  align-self: start;
+  justify-self: start;
+  display:grid;
+  grid-template-columns: repeat(3,auto);
+  grid-template-rows: repeat(3, auto);
+  gap:none;
+  align-items: center;
+  justify-self: center;
+  background-color: black;
+  min-height: fit-content;
+  
 }
+
 .grid .cell{
-    height:10rem;
-    width:10rem;
-    border:solid 1px black;
+  height:15rem;
+  width:15rem;
+  font-size: 13rem;
+  text-align: center;
+  background-color: black;
+  border:solid 1px rgb(255, 255, 255);
+  color: white;
 }
-.cell{
-    font-size: 8rem;
-    text-align: center;
+.grid #cell0 , #cell1, #cell2{
+  grid-row: 1/2;
+}
+.grid #cell3, #cell4, #cell5{
+  grid-row: 2/3;
+}
+.grid #cell6, #cell7, #cell8{
+  grid-row: 3/4;
+}
+.score{
+  grid-column: 1/2;
+  grid-row: 3/5;
+  justify-self: center;
+  /* align-self: end; */
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: min-content;
+  border-radius: 10px;
+  /* height:55vh;
+  width: 15vw; */
+  max-width: 450px;
+  max-height: 680px;
+  border:5px solid rgb(24, 19, 51);
+  background:linear-gradient(to top, rgb(0, 0, 0), rgb(107, 107, 107));
+  color:rgb(255, 255, 255);
+  padding:0 3vw;
+  gap:2vw;
+  font-size: 2rem;
+}
+.score h3{
+  grid-row: 1/2;
+  grid-column: 1/-1;
+  text-align: center;
+}
+.score .player1ScoreContainer{
+  grid-row: 2/3;
+  grid-column: 1/3;
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.score .player2ScoreContainer{
+  grid-row: 3/4;
+  grid-column: 1/3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.player1Score, .player2Score{
+  margin:0;
+  margin-left: 40%;
+}
+.score .resetScore{
+  grid-row: 4/5;
+  grid-column: 1/-1;
+  height:3vh;
+  width:70%;
+  align-self: start;
+  justify-self: center;
+  border:none;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding:1.5rem;
+  margin-bottom: 2vh;
+  display: flex;
+  align-items: center;
+}
+.outcomePopupContainer{ /* Hidable container */
+  grid-row: 2/3;
+  grid-column: 2/3; 
+  display:none;
+  align-self: end;
+  justify-self: center;
+  margin:0 0 2vh 0;
+  z-index: 1000;
+}
+.outcomePopup{
+  justify-self: start;
+  text-align: center;
+  display:grid;
+  width:25vw;
+  background: linear-gradient(to top, black, rgb(201, 207, 115));
+  border: black 1px solid;
+  font-weight: bold;
+  font-size: 2rem;
+  padding-bottom: 2%;
+
+}
+.outcomePopup .title{
+  font-size:2.2rem;
+}
+.outcomePopup button{
+  font-weight: bold;
+  font-size: 1.5rem;
+  width:50%;
+  margin-top: 20%;
+}
+.outcomePopup .resetBoard{
+  align-self: end;
+  justify-self: center;
+  margin-top: 1vh;
+  
+  height:10%;
+  padding:0 3vw;
+  color:green;
+  background-color: black;
+
+}
+
+@media only screen and (max-width: 700px) {
+  body{
+    grid-template-columns: repeat(2, min-content);
+    grid-auto-rows:auto;
+    justify-content: center;
+
+  }
+  .grid{
+    grid-column: 1/3;
+    grid-row: 5/7;
+    margin-top: 2vh;
+  }
+  .grid .cell{
+    height: 8rem;
+    width: 8rem;
+    font-size: 7rem;
+
+    
+  }
+  .playerNameContainer{
+    grid-column: 1/3;
+    font-size: .8rem;
+    /* grid-row: 2/4;
+    grid-column: 1/2;
+    justify-self: center;
+    align-self: start;
+    
+    gap: 20px;
+    margin-bottom: 2vh;
+    padding: 2vw; */
+     
+  }
+  .playerNameContainer input{
+    font-size: .8rem;
+  }
+  .playerNameContainer .beginGameSeries{
+    font-size: .6rem;
+  }
+  .changeNames{
+    grid-column: 1/3;
+    font-size: .6rem;
+    align-self: start;
+    width: 50%;
+    height:1vh;
+    padding:0;
+  }
+  .score{
+    grid-row:3/4;
+    grid-column: 1/3;
+    font-size: .8rem;
+    width: 100%;
+    grid-template-rows: min-content;
+    z-index: -1000;
+
+  }
+  .score .player1ScoreContainer, .player2ScoreContainer{
+    margin:-4% 0;
+  }
+  .score .resetScore{
+    align-self: end;
+    font-size: .6rem;
+    padding:0;
+    height: .5vh;
+    margin:0;
+    
+    justify-content: center;
+    
+  }
+  .welcome{
+    grid-row: 7/8;
+    grid-column: 1/3;
+    font-size: .8rem;
+  }
+  .outcomePopupContainer{
+    grid-column: 1/3;
+    grid-row: 2/4;
+
+  }
+  .outcomePopup, .outcomePopup .title, .outcomePopup .resetBoard{
+    font-size: .8rem;
+    top:0;
+    width: 50vw;
+    z-index: 1000;
+  }
 }
