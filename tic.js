@@ -14,8 +14,6 @@ function playerInfo(){
     playerNameDisplay(playerArray);
   })
   }
-  
-
   function nameArray(playerArray){
     let name1 = document.querySelector('#player1').value;
     let name2 = document.querySelector('#player2').value;
@@ -53,8 +51,6 @@ function playerInfo(){
          namePopup.style.display = 'none';
       }
     }
-    
-    
   }
   function greeting(player1, player2){
     let welcome = document.querySelector('.welcome');
@@ -62,22 +58,15 @@ function playerInfo(){
     welcome.textContent = `${player1}, and ${player2}.`
     welcomeContainer.style.display = 'block';
   }
-
   init();
   }
-
 function startGame(players){
   let array = new Array(9).fill(undefined);
   let grid = document.querySelector('.grid');
   grid.disabled = false;
-  
   let player1Index = [], player2Index = [];
   let count = 1;
   let playerScore = [0,0];
-  
-  // let playerTurn = document.querySelector('.playerTurn');
-  // playerTurn.textContent = `${player[0](player.name)}'s turn!`
-
   let outcome = document.querySelector('.outcome');
   resetGame();
   scoreKeeping('reset');
@@ -88,22 +77,17 @@ function startGame(players){
         case 'cell':
             let cell = target;
             playerTurn(cell,players,count);
-
             /* passes through playerTurn() to determine character entry for cell*/
     }
   }
   grid.addEventListener('click', clickHandler);
-
   let resetBoard = document.querySelector('.resetBoard');
   
   resetBoard.addEventListener('click', ()=>{
     resetGame();
     grid.addEventListener('click', clickHandler);
     outcomeDisplay(false) /* calls funct to set popup display to 'none' */
-
-    
   })
-
   let resetScore = document.querySelector('.resetScore');
   resetScore.addEventListener('click', () => {
     playerScore = scoreKeeping('reset', playerScore); /* updates playerScore w/ return value of scoreKeeping */
@@ -231,13 +215,12 @@ function startGame(players){
   }
   function outcomeDisplay(bool){
     let outcomePopup = document.querySelector('.outcomePopupContainer');
+    
     if (bool === true){
       return outcomePopup.style.display = 'block';
 
     }
     outcomePopup.style.display = 'none';
-    
-    
   }
   function winningStyle(winningIndex){
     for(i of winningIndex){
