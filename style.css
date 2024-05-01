@@ -10,18 +10,6 @@ body{
   grid-auto-rows: min-content;
   background:rgba(224, 224, 224, 0.616)
 }
-.header{
-  grid-row: 1/2;
-  grid-column: 1/4;
-  justify-self: center;
-  display:flex;
-  justify-content: center;
-  width:100%;
-  background:linear-gradient(to top, black,green);
-  margin:-1vh -3vw 1vh -3vw;
-  padding: 0 3vw;
-  color:white;
-} 
 button{
   border-radius: 15px;
   cursor: pointer;
@@ -30,16 +18,17 @@ button{
   max-width: 100px;
 }
 .playerNameContainer{
-  grid-row: 2/4;
-  grid-column: 1/2;
   justify-self: center;
   align-self: start;
   display:flex;
   flex-direction: column;
+  position: fixed;
+  top:30%;
+  left:5%;
   z-index: 1000;
   font-weight: bold;
   font-size: 1.5rem;
-  gap: 20px;
+  gap: 40px;
   margin-bottom: 2vh;
   padding: 2vw;
   background: rgb(230, 228, 228); 
@@ -79,7 +68,7 @@ button{
   
 }
 .changeNames{
-  grid-row: 2/3;
+  grid-row: 1/2;
   grid-column: 1/2;
   color: rgb(255, 255, 255);
   background: rgb(0, 0, 0);
@@ -92,21 +81,26 @@ button{
   align-self: center;
   
 }
-.welcome{
-  grid-row: 2/3;
+.welcomeContainer{
+  grid-row: 1/2;
   grid-column: 2/3;
-  font-size: 2rem;
-  align-self: center;
+  font-size: 1.8rem;
+  margin-top: 0;
+  margin-bottom: 1vh;
   justify-self: center;
   text-align: center;
-  width:45%;
+  width:70%;
+  min-height: 160px;
   background-color: black;
   color:white;
-
+}
+.welcomeContainer .header{
+  display:none;
 }
 .grid{
   grid-column: 2/3;
-  grid-row: 3/5;
+  grid-row: 2/4;
+  margin-top: 1vh;
   align-self: start;
   justify-self: start;
   display:grid;
@@ -121,8 +115,8 @@ button{
 }
 
 .grid .cell{
-  height:15rem;
-  width:15rem;
+  height:17.5rem;
+  width:17.5rem;
   font-size: 13rem;
   text-align: center;
   background-color: black;
@@ -140,23 +134,19 @@ button{
 }
 .score{
   grid-column: 1/2;
-  grid-row: 3/5;
-  justify-self: center;
-  /* align-self: end; */
+  grid-row: 2/4;
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  align-self: top;
+  grid-template-columns: repeat(2, minmax(100px, 3500px));
   grid-template-rows: min-content;
   border-radius: 10px;
-  /* height:55vh;
-  width: 15vw; */
-  max-width: 450px;
-  max-height: 680px;
   border:5px solid rgb(24, 19, 51);
   background:linear-gradient(to top, rgb(0, 0, 0), rgb(107, 107, 107));
   color:rgb(255, 255, 255);
-  padding:0 3vw;
+  padding:0 1vw;
   gap:2vw;
   font-size: 2rem;
+  margin-top: 1vh;
 }
 .score h3{
   grid-row: 1/2;
@@ -197,13 +187,13 @@ button{
   align-items: center;
 }
 .outcomePopupContainer{ /* Hidable container */
-  grid-row: 2/3;
+  grid-row: 1/2;
   grid-column: 2/3; 
   display:none;
   align-self: end;
   justify-self: center;
-  margin:0 0 2vh 0;
   z-index: 1000;
+
 }
 .outcomePopup{
   justify-self: start;
@@ -240,26 +230,33 @@ button{
 
 @media only screen and (max-width: 700px) {
   body{
-    grid-template-columns: repeat(2, min-content);
+    grid-template-columns: auto;
     grid-auto-rows:auto;
     justify-content: center;
+    background: rgba(185, 185, 185, 0.733);
 
   }
   .grid{
-    grid-column: 1/3;
-    grid-row: 5/7;
-    margin-top: 2vh;
+    grid-row: 4/5;
+    grid-column: 1/2;
+    bottom: 10%;
+    align-self: start;
+    justify-self: center;
+    margin-top: 5vh;
   }
   .grid .cell{
-    height: 8rem;
-    width: 8rem;
+    height: 33vw;
+    width: 33vw;
     font-size: 7rem;
 
     
   }
   .playerNameContainer{
-    grid-column: 1/3;
+    top:27vh;
+    left:21%;
     font-size: .8rem;
+    padding:2vw;
+    gap:1vw
     /* grid-row: 2/4;
     grid-column: 1/2;
     justify-self: center;
@@ -277,20 +274,24 @@ button{
     font-size: .6rem;
   }
   .changeNames{
-    grid-column: 1/3;
+    grid-column: 1/2;
     font-size: .6rem;
-    align-self: start;
+    align-self:center;
     width: 50%;
     height:1vh;
     padding:0;
+  
   }
   .score{
-    grid-row:3/4;
-    grid-column: 1/3;
-    font-size: .8rem;
-    width: 100%;
+    grid-row:2/3;
+    grid-column: 1/2;
+    font-size: .7rem;
+    width: 80%;
     grid-template-rows: min-content;
     z-index: -1000;
+    justify-self: center;
+    padding:.5vh 2vw;
+    margin-top: 5vh;
 
   }
   .score .player1ScoreContainer, .player2ScoreContainer{
@@ -306,14 +307,20 @@ button{
     justify-content: center;
     
   }
-  .welcome{
-    grid-row: 7/8;
-    grid-column: 1/3;
+
+  .welcomeContainer{
+    grid-row: 3/4;
+    grid-column: 1/2;
     font-size: .8rem;
+    width: 45vw;
+    min-height: 50px;
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+    padding: 0 30vw;
   }
   .outcomePopupContainer{
-    grid-column: 1/3;
-    grid-row: 2/4;
+    position:fixed;
+    top:30vh;
 
   }
   .outcomePopup, .outcomePopup .title, .outcomePopup .resetBoard{

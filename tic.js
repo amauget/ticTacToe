@@ -9,11 +9,12 @@ function playerInfo(){
         let players = createPlayer(playerArray); /* includes player1, player2 to parse later */
         startGame(players);
     })  
-  }
-  let changeNames = document.querySelector('.changeNames');
-  changeNames.addEventListener('click', ()=>{
-    playerNameDisplay();
+    let changeNames = document.querySelector('.changeNames');
+    changeNames.addEventListener('click', ()=>{
+    playerNameDisplay(playerArray);
   })
+  }
+  
 
   function nameArray(playerArray){
     let name1 = document.querySelector('#player1').value;
@@ -32,7 +33,7 @@ function playerInfo(){
     player1H3.textContent = playerArray[0] + ':';
     let player2H3 = document.querySelector('.player2Name');
     player2H3.textContent = playerArray[1] + ':';
-    playerNameDisplay();
+    playerNameDisplay(playerArray);
    
   }
   function createPlayer(playerArray){
@@ -40,20 +41,26 @@ function playerInfo(){
     let player2 = {name:playerArray[1], selector:'O'};
     return{player1, player2};
   }
-  function playerNameDisplay(){
+  function playerNameDisplay(playerArray){
     let namePopup = document.querySelector('.playerNameContainer')
-    if (namePopup.style.display === 'none'){
-      namePopup.style.display = 'flex'
-     
+    console.log(playerArray)
+    if(playerArray.length !== 0){ /* disables removal of playerName popup in the case of non-entry */
+      if (namePopup.style.display === 'none'){
+        namePopup.style.display = 'flex'
+       
+      }
+      else{
+         namePopup.style.display = 'none';
+      }
     }
-    else{
-       namePopup.style.display = 'none';
-    }
+    
     
   }
   function greeting(player1, player2){
     let welcome = document.querySelector('.welcome');
-    welcome.textContent = `Now Playing: ${player1}, and ${player2}`
+    let welcomeContainer = document.querySelector('.welcomeContainer>.header');
+    welcome.textContent = `${player1}, and ${player2}.`
+    welcomeContainer.style.display = 'block';
   }
 
   init();
