@@ -84,13 +84,16 @@ button{
 .welcomeContainer{
   grid-row: 1/2;
   grid-column: 2/3;
-  font-size: 1.8rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.5rem;
   margin-top: 0;
   margin-bottom: 1vh;
   justify-self: center;
   text-align: center;
   width:70%;
-  min-height: 160px;
+  min-height: 80px;
   background-color: black;
   color:white;
 }
@@ -115,7 +118,7 @@ button{
 }
 
 .grid .cell{
-  height:17.5rem;
+  height:16rem;
   width:17.5rem;
   font-size: 13rem;
   text-align: center;
@@ -192,6 +195,9 @@ button{
   display:none;
   align-self: end;
   justify-self: center;
+  position: fixed;
+  top:15%;
+  left: 5%;
   z-index: 1000;
 
 }
@@ -317,6 +323,7 @@ button{
     margin-top: 3vh;
     margin-bottom: 1vh;
     padding: 0 30vw;
+    
   }
   .outcomePopupContainer{
     position:fixed;
